@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Jornada do Herói</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            border: 1px solid #90caf9;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 600px;
+            background: white;
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>A Jornada do Herói</h1>
+        <div id="story"></div>
+        <div id="options"></div>
+    </div>
+
+    <script>
+        const story = [
+            {
+                text: "Você é um jovem herói que vive em uma aldeia tranquila. Um dia, você ouve rumores de um dragão que está aterrorizando as aldeias vizinhas. O que você faz?",
+                options: [
+                    { text: "Preparar-se para a batalha", next: 1 },
+                    { text: "Ignorar e continuar sua vida", next: 2 }
+                ]
+            },
+            {
+                text: "Você se prepara com armaduras e armas. Ao chegar na caverna do dragão, você encontra uma bifurcação: uma estrada à esquerda que leva a uma aldeia em chamas e uma à direita que leva a uma montanha escura. O que você faz?",
+                options: [
+                    { text: "Seguir para a aldeia em chamas", next: 3 },
+                    { text: "Explorar a montanha escura", next: 4 }
+                ]
+            },
+            {
+                text: "Você decide ignorar os rumores e vive sua vida normalmente. Contudo, o dragão aparece em sua aldeia e destrói tudo. Você se arrepende de não ter agido. Fim.",
+                options: []
+            },
+            {
+                text: "Ao chegar na aldeia em chamas, você vê pessoas desesperadas. Você pode tentar ajudar a apagar o fogo ou atacar o dragão imediatamente. O que você faz?",
+                options: [
+                    { text: "Ajudar a apagar o fogo", next: 5 },
+                    { text: "Atacar o dragão", next: 6 }
+                ]
+            },
+            {
+                text: "Você decide explorar a montanha escura. Lá, você encontra um sábio que oferece um artefato mágico. Você pode aceitá-lo ou não. O que você faz?",
+                options: [
+                    { text: "Aceitar o artefato", next: 7 },
+                    { text: "Recusar e seguir em frente", next: 8 }
+                ]
+            },
+            {
+                text: "Você ajuda a apagar o fogo e salva várias pessoas. Com isso, elas se juntam a você para enfrentar o dragão. Agora você tem aliados! O que você faz?",
+                options: [
+                    { text: "Atacar o dragão em grupo", next: 9 },
+                    { text: "Planejar uma estratégia", next: 10 }
+                ]
+            },
+            {
+                text: "Você ataca o dragão, mas ele é mais forte do que você esperava. Após uma luta intensa, você consegue derrotá-lo, mas ficou gravemente ferido. Você se torna um herói, mas precisa de cuidados. Parabéns!",
+                options: []
+            },
+            {
+                text: "Você aceita o artefato mágico. Ele lhe concede uma força incrível! Com isso, você pode enfrentar o dragão com uma nova confiança. O que você faz?",
+                options: [
+                    { text: "Voltar e enfrentar o dragão", next: 11 },
+                    { text: "Explorar mais a montanha", next: 12 }
+                ]
+            },
+            {
+                text: "Você recusa o artefato e continua sua jornada. Porém, sem a magia, você enfrenta dificuldades ao tentar derrotar o dragão. O que você faz?",
+                options: [
+                    { text: "Procurar uma nova arma", next: 13 },
+                    { text: "Voltar para a aldeia", next: 2 }
+                ]
+            },
+            {
+                text: "Com seus aliados, você planeja uma estratégia e consegue cercar o dragão. A luta é intensa, mas com trabalho em equipe, vocês o derrotam! Sua aldeia é salva e você é aclamado como herói!",
+                options: []
+            },
+            {
+                text: "Você decide enfrentar o dragão novamente. Com o poder do artefato, você derrota o dragão facilmente! A aldeia agradece a você por sua bravura. Parabéns, você é um verdadeiro herói!",
+                options: []
+            },
+            {
+                text: "Você explora mais a montanha, mas acaba se perdendo. Sua aventura termina aqui, mas você aprendeu muito. Fim.",
+                options: []
+            },
+            {
+                text: "Você procura uma nova arma e encontra uma espada poderosa. Com ela, você volta para enfrentar o dragão, mas acaba encontrando ele em uma emboscada. O que você faz?",
+                options: [
+                    { text: "Lutar bravamente", next: 14 },
+                    { text: "Tentar negociar", next: 15 }
+                ]
+            },
+            {
+                text: "Você decide voltar para a aldeia, mas se depara com o dragão no caminho. É hora de enfrentar o seu destino. O que você faz?",
+                options: [
+                    { text: "Atacar", next: 16 },
+                    { text: "Fugir", next: 17 }
+                ]
+            },
+            {
+                text: "Você luta bravamente com a espada poderosa e derrota o dragão! A aldeia é salva e você é lembrado como um grande herói!",
+                options: []
+            },
+            {
+                text: "Você tenta negociar com o dragão e descobre que ele estava apenas se defendendo. Você faz um pacto com ele, e ele promete proteger sua aldeia. Você se torna um herói pacífico!",
+                options: []
+            },
+            {
+                text: "Você ataca o dragão, mas ele é forte demais. Você consegue escapar, mas a aldeia ainda está em perigo. Sua aventura continua.",
+                options: []
+            },
+            {
+                text: "Você decide fugir e acaba se perdendo na floresta. Sua aventura termina aqui, mas você sempre se lembrará da coragem que teve.",
+                options: []
+            }
+        ];
+
+        let currentStoryIndex = 0;
+
+        function displayStory() {
+            const storyDiv = document.getElementById("story");
+            const optionsDiv = document.getElementById("options");
+
+            storyDiv.innerHTML = story[currentStoryIndex].text;
+            optionsDiv.innerHTML = "";
+
+            story[currentStoryIndex].options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.onclick = () => {
+                    currentStoryIndex = option.next;
+                    displayStory();
+                };
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        displayStory();
+    </script>
+
+</body>
+</html>
